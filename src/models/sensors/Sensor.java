@@ -1,10 +1,14 @@
-package models;
+package models.sensors;
+
+import models.AlarmEvent;
+import models.ISensorListener;
+import models.Location;
 
 import java.util.List;
 
 public abstract class Sensor {
     protected String name;
-    protected  Location location;
+    protected Location location;
     protected double threshold;
     protected double value;
     protected List<ISensorListener> listeners = new java.util.ArrayList<>();
@@ -42,6 +46,12 @@ public abstract class Sensor {
 
     public void setThreshold(double threshold) {
         this.threshold = threshold;
+        if (value > threshold) {
+            AlarmEvent event = new AlarmEvent(this);
+            for (ISensorListener listener : listeners) {
+                listener.dangerDetected(event);
+            }
+        }
     }
 
     public double getValue() {
@@ -58,7 +68,9 @@ public abstract class Sensor {
         }
     }
 
-    public void addListener(ISensorListener listener) {
+    public void addListener(ISensorListener listener) throws Exception {
+        if (!listener.isAllowedSensorType(this))
+            throw new Exception("Sensor type not allowed in this monitor");
         listeners.add(listener);
     }
     public void removeListener(ISensorListener listener) {

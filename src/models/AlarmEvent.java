@@ -1,5 +1,7 @@
 package models;
 
+import models.sensors.Sensor;
+
 import java.time.LocalDateTime;
 import java.util.EventObject;
 

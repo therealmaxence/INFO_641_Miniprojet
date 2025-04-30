@@ -1,5 +1,6 @@
-package models;
+package models.sensors;
 
+import models.Location;
 import models.enums.GasType;
 
 public class GasSensor extends Sensor{

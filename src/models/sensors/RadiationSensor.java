@@ -1,4 +1,6 @@
-package models;
+package models.sensors;
+
+import models.Location;
 
 public class RadiationSensor extends Sensor{
     public RadiationSensor(String name, Location location, double threshold) {
