@@ -1,4 +1,4 @@
-package Model.Enum;
+package models.enums;
 
 public enum GasType {
     H("Hydrogène"),
@@ -27,4 +27,3 @@ public enum GasType {
         return label;
     }
 }
-
