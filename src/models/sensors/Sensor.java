@@ -76,4 +76,9 @@ public abstract class Sensor {
     public void removeListener(ISensorListener listener) {
         listeners.remove(listener);
     }
+    
+    public String toString() {
+		return "Sensor : "+name+", Location : "+location+", Value : "+value+", Treshold : "+threshold;
+    	
+    }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class Monitor implements ISensorListener {
     protected List<String> allowedSensorTypes;
+    protected List<AlarmEvent> alarms = new ArrayList<>();
 
     public Monitor(List<String> allowedSensorTypes) {
         this.allowedSensorTypes = allowedSensorTypes;
@@ -23,7 +24,15 @@ public abstract class Monitor implements ISensorListener {
 
     @Override
     public void dangerDetected(AlarmEvent e) {
-        System.out.println("Location : (" + e.getLocation() + "), Date : " + e.getDatetime() + ", Severity :" + e.getSeverity());
+    	try {
+			if (this.isAllowedSensorType((Sensor) e.getSource())) {
+				alarms.add(e);
+				System.out.println("BIP BIP !!");
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     @Override
@@ -35,4 +44,8 @@ public abstract class Monitor implements ISensorListener {
     public void listen(Sensor sensor) throws Exception {
         sensor.addListener(this);
     }
+
+	public List<AlarmEvent> getAlarmEvents(){
+		return alarms;
+	}
 }
