@@ -2,6 +2,7 @@
 package ui;
 
 import models.AlarmEvent;
+import models.ApplicationSystem;
 import models.monitors.Monitor;
 
 import javax.swing.*;
@@ -11,21 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmMonitorView extends JFrame {
-	public static ArrayList<Monitor> monitors;
     private DefaultListModel<AlarmEvent> listModel = new DefaultListModel<>();
     private JList<AlarmEvent> alarms = new JList<>(listModel);
-    //private ArrayList<Monitor> monitors;
     private JButton detailsBtn = new JButton("Détails");
     private JButton treatedBtn = new JButton("Traité");
 
-    public AlarmMonitorView(ArrayList<Monitor> monitors) {
+    public AlarmMonitorView() throws Exception {
         super("Moniteur d'alarmes");
         //this.monitors = monitors;
-        AlarmMonitorView.monitors = monitors;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Fill the list model with alarms from all monitors
-        for (Monitor m : monitors) {
+        for (Monitor m : ApplicationSystem.getInstance().getMonitors()) {
+        	// Create a panel for each monitor
             for (AlarmEvent e : m.getAlarmEvents()) {
                 listModel.addElement(e);
             }
@@ -82,9 +80,4 @@ public class AlarmMonitorView extends JFrame {
             treatedBtn.setEnabled(false);
         }
     }
-
-	/*public List<Monitor> getMonitors() {
-		// TODO Auto-generated method stub
-		return monitors;
-	}*/
 }

@@ -27,7 +27,6 @@ public abstract class Monitor implements ISensorListener {
     	try {
 			if (this.isAllowedSensorType((Sensor) e.getSource())) {
 				alarms.add(e);
-				System.out.println("BIP BIP !!");
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -43,6 +42,11 @@ public abstract class Monitor implements ISensorListener {
 
     public void listen(Sensor sensor) throws Exception {
         sensor.addListener(this);
+    }
+    
+    @Override 
+    public String toString() {
+    	return this.getClass().getSimpleName();
     }
 
 	public List<AlarmEvent> getAlarmEvents(){
