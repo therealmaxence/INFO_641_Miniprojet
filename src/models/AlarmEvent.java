@@ -10,7 +10,7 @@ public class AlarmEvent extends EventObject {
     private int severity;
 
     private boolean detailsViewed = false;
-    private boolean treated       = false;
+    private boolean treated = false;
 
     public AlarmEvent(Sensor source) {
         super(source);
@@ -54,7 +54,7 @@ public class AlarmEvent extends EventObject {
 
     @Override
     public String toString() {
-        String base = String.format("[%s] %s @ %s (sev %d)",
+        String base = String.format("[SensorType: %s] [Time: %s] @ %s (severity: %d)",
             ((Sensor)getSource()).getName(),
             datetime.toLocalTime(),
             getLocation().getAdress(),

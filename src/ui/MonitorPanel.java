@@ -76,7 +76,7 @@ public class MonitorPanel extends JPanel {
         JTextArea text = new JTextArea(msg);
         text.setEditable(false);
         detailsDialog.getContentPane().add(new JScrollPane(text));
-        detailsDialog.setSize(300,200);
+        detailsDialog.setSize(500,300);
         detailsDialog.setLocationRelativeTo(this);
         detailsDialog.setVisible(true);
 

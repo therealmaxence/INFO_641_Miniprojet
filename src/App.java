@@ -1,3 +1,4 @@
+import models.ApplicationSystem;
 import models.ISensorListener;
 import models.monitors.MonitorTypeA;
 import models.monitors.MonitorTypeB;
@@ -14,19 +15,17 @@ import javax.swing.SwingUtilities;
 
 public class App {
     public static void main(String[] args) {
-        // Launch both the manager and monitor on the EDT
         SwingUtilities.invokeLater(() -> {
-			try {
+			try {		
 				AlarmManagerView manager = new AlarmManagerView();
 	            manager.setVisible(true);
 	            
 	            SimulatorView simulator = new SimulatorView();
 	            simulator.setVisible(true);
 	            
-	            MonitorView monitors = new MonitorView();
+	            AlarmMonitorView monitors = new AlarmMonitorView();
 	            monitors.setVisible(true);
 	        } catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         });

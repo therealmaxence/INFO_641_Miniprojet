@@ -1,5 +1,6 @@
 package ui;
 
+import models.ApplicationSystem;
 import models.ISensorListener;
 import models.Location;
 import models.enums.GasType;
@@ -19,12 +20,15 @@ public class SensorPanel extends JPanel {
     private final JButton addSensorBtn = new JButton("Ajouter Capteur ➕");
     private final JButton delSensorBtn = new JButton("Supprimer Capteur 🗑️");
     private final LocationPanel locationPanel;
-    //private final List<Monitor> listeners;
-    //private AlarmMonitorView monitorView;
+    private ArrayList<Monitor> monitors;
 
-    public SensorPanel(LocationPanel locPanel, ArrayList<Monitor> listeners) {
+    public SensorPanel(LocationPanel locPanel) {
         this.locationPanel = locPanel;
-        //this.listeners = listeners;
+        try {
+			this.monitors = ApplicationSystem.getInstance().getMonitors();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
         setLayout(new BorderLayout(5,5));
         sensorList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -81,12 +85,10 @@ public class SensorPanel extends JPanel {
             switch(type) {
                 case "Feu":
                     s = new FireSensor(name, loc, threshold);
-                    //for (Monitor m : monitorView.getMonitors()) {
-                    for (Monitor m : AlarmMonitorView.monitors) {
+                    for (Monitor m : monitors) {
                     	try {
 							if (m.isAllowedSensorType(s)) {m.listen(s);}
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
                     }
@@ -95,12 +97,10 @@ public class SensorPanel extends JPanel {
                 case "Gaz":
                     GasType gt = (GasType) gasBox.getSelectedItem();
                     s = new GasSensor(name, loc, threshold, gt);
-                    //for (Monitor m : monitorView.getMonitors()) {
-                    for (Monitor m : AlarmMonitorView.monitors) {
+                    for (Monitor m : monitors) {
                     	try {
 							if (m.isAllowedSensorType(s)) {m.listen(s);}
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
                     }
@@ -108,12 +108,10 @@ public class SensorPanel extends JPanel {
                     break;
                 case "Radiation":
                 	s = new RadiationSensor(name, loc, threshold);
-                    //for (Monitor m : monitorView.getMonitors()) {
-                    for (Monitor m : AlarmMonitorView.monitors) {
+                    for (Monitor m : monitors) {
                     	try {
 							if (m.isAllowedSensorType(s)) {m.listen(s);}
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
                     }

@@ -12,21 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmMonitorView extends JFrame {
-    private DefaultListModel<AlarmEvent> listModel = new DefaultListModel<>();
+	private static AlarmMonitorView dataContent;
+	private DefaultListModel<AlarmEvent> listModel = new DefaultListModel<>();
     private JList<AlarmEvent> alarms = new JList<>(listModel);
     private JButton detailsBtn = new JButton("Détails");
     private JButton treatedBtn = new JButton("Traité");
+    private JButton refreshBtn = new JButton("Refresh");
 
     public AlarmMonitorView() throws Exception {
         super("Moniteur d'alarmes");
-        //this.monitors = monitors;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         for (Monitor m : ApplicationSystem.getInstance().getMonitors()) {
         	// Create a panel for each monitor
-            for (AlarmEvent e : m.getAlarmEvents()) {
-                listModel.addElement(e);
-            }
+	            for (AlarmEvent e : m.getAlarmEvents()) {
+	                listModel.addElement(e);
+        	}
         }
 
         alarms.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -41,17 +42,27 @@ public class AlarmMonitorView extends JFrame {
 
         detailsBtn.addActionListener(e -> showDetails());
         treatedBtn.addActionListener(e -> markTreated());
+        refreshBtn.addActionListener(e -> {
+			try {
+				refreshAlarmList();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 
         JPanel btnPanel = new JPanel();
         btnPanel.add(detailsBtn);
         btnPanel.add(treatedBtn);
+        btnPanel.add(refreshBtn);
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(sp, BorderLayout.CENTER);
         getContentPane().add(btnPanel, BorderLayout.SOUTH);
 
-        setSize(400, 300);
+        setSize(700, 500);
         setLocation(600, 100);
+        dataContent = this;
     }
 
     private void showDetails() {
@@ -79,5 +90,19 @@ public class AlarmMonitorView extends JFrame {
             listModel.remove(idx);
             treatedBtn.setEnabled(false);
         }
+    }
+    
+    public void refreshAlarmList() throws Exception {
+    	listModel.clear();
+    	for (Monitor m : ApplicationSystem.getInstance().getMonitors()) {
+        	// Create a panel for each monitor
+	            for (AlarmEvent e : m.getAlarmEvents()) {
+	                listModel.addElement(e);
+        	}
+        }
+    }
+    
+    public static AlarmMonitorView getDataContent() {
+    	return dataContent;
     }
 }

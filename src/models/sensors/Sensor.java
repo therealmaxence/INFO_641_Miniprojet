@@ -68,11 +68,17 @@ public abstract class Sensor {
         }
     }
 
-    public void addListener(ISensorListener listener) throws Exception {
-        if (!listener.isAllowedSensorType(this))
-            throw new Exception("Sensor type not allowed in this monitor");
+    public void addListener(ISensorListener listener) {
+        try {
+			if (!listener.isAllowedSensorType(this)) {
+			    throw new IllegalArgumentException("Sensor type not allowed in this monitor");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         listeners.add(listener);
     }
+
     public void removeListener(ISensorListener listener) {
         listeners.remove(listener);
     }

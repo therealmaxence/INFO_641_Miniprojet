@@ -1,11 +1,15 @@
 package models.monitors;
 
 import models.AlarmEvent;
+import models.ApplicationSystem;
 import models.ISensorListener;
 import models.sensors.Sensor;
-
+import ui.AlarmMonitorView;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 
 public abstract class Monitor implements ISensorListener {
     protected List<String> allowedSensorTypes;
@@ -27,6 +31,9 @@ public abstract class Monitor implements ISensorListener {
     	try {
 			if (this.isAllowedSensorType((Sensor) e.getSource())) {
 				alarms.add(e);
+				// POPUP for alert
+				//JOptionPane.showMessageDialog(new JFrame(),"Alarm"+e);
+				AlarmMonitorView.getDataContent().refreshAlarmList();
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

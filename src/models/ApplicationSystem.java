@@ -22,6 +22,7 @@ public class ApplicationSystem {
     private ArrayList<Location> locations = new ArrayList<>();
 
     public ApplicationSystem() throws Exception {
+    	
         // Sample locations
         getLocations().add(new Location("123 Main St", "Room 101", 7));
         getLocations().add(new Location("456 Industrial Ave", "Server Room", 9));
@@ -30,7 +31,7 @@ public class ApplicationSystem {
         getLocations().add(new Location("654 Tech Park", "Warehouse A", 6));
         getLocations().add(new Location("888 Valley View", 3));
 
-        // Create and add monitors
+        // Monitors
         monitors.add(new MonitorTypeA());
         monitors.add(new MonitorTypeB());
 
@@ -89,8 +90,13 @@ public class ApplicationSystem {
 		this.sensors = sensors;
 	}
 	
-	public void addSensor(Sensor s) {
+	public void addSensor(Sensor s) throws Exception {
 		sensors.add(s);
+		for (Monitor m : monitors) {
+			if (m.isAllowedSensorType(s)){
+				m.listen(s);
+			}
+		}
 	}
 	
 	public void removeSensor(Sensor s) {
